@@ -2,13 +2,8 @@
 set -e
 
 ## Pre-check
-if [ ! -x /usr/sbin/vzlist ];then
-	echo "Error Please install vzlist first"
-	exit 1
-fi
-
 if [ ! -x /usr/sbin/vzctl ];then
-	echo "Error Please install vzctl first"
+	echo "ERROR: Please install vzctl first"
 	exit 1
 fi
 
@@ -48,7 +43,7 @@ do
 
                             #echo "Moving root content of VZ $OLDCTID to VZ $NEWCTID"
                             /bin/mv -v "$VZROOT_PATH"/"$OLDCTID" "$VZROOT_PATH"/"$NEWCTID"
-                        else
+                        elsegg
                             /bin/echo "ERROR: New CTID unavailable"
                             exit
                         fi
