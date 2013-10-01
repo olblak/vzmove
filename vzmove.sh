@@ -1,5 +1,4 @@
 #!/bin/bash
-## !!! We need vzlist
 set -e
 
 ## Pre-check
@@ -41,16 +40,16 @@ do
                         fi
                         # Test if the new CTID is available
                         if [[ $(/usr/sbin/vzlist $NEWCTID) -ne "1" ]];then
-                            #echo "Moving the config file of VZ $OLDCTID to VZ $NEWCTID"
+                            #echo "Moving config file of VZ $OLDCTID to VZ $NEWCTID"
                             /bin/mv -v "$VZCONF_PATH"/"$OLDCTID".conf "$VZCONF_PATH"/"$NEWCTID".conf
 
-                            #echo "Moving the private content of VZ $OLDCTID to VZ $NEWCTID"
+                            #echo "Moving private content of VZ $OLDCTID to VZ $NEWCTID"
                             /bin/mv -v "$VZPRIVATE_PATH"/"$OLDCTID" "$VZPRIVATE_PATH"/"$NEWCTID"
 
-                            #echo "Moving the root content of VZ $OLDCTID to VZ $NEWCTID"
+                            #echo "Moving root content of VZ $OLDCTID to VZ $NEWCTID"
                             /bin/mv -v "$VZROOT_PATH"/"$OLDCTID" "$VZROOT_PATH"/"$NEWCTID"
                         else
-                            /bin/echo "ERROR: New CTID unavaible"
+                            /bin/echo "ERROR: New CTID unavailable"
                             exit
                         fi
                     else
