@@ -24,6 +24,7 @@ do
         *)
             OLDCTID="$1"
             NEWCTID="$2"
+            CTID_NAME=$(vzlist -o name $OLDCTID | sed '/NAME/d')
             # Test if we have two argument (old and new CTID)
             if [ $# -eq 2 ];then
                 ## Test if we use correct numeric CTID
@@ -43,7 +44,14 @@ do
 
                             #echo "Moving root content of VZ $OLDCTID to VZ $NEWCTID"
                             /bin/mv -v "$VZROOT_PATH"/"$OLDCTID" "$VZROOT_PATH"/"$NEWCTID"
-                        elsegg
+                            # Test if a name was set with the $OLDCTID,
+                                # If yes, delete the symlink in /etc/vz/names/* 
+                                # and set a new one.
+                            if [[ -L "/etc/vz/names/$CTID_NAME" ]];then
+                                unlink /etc/vz/names/$CTID_NAME
+                                vzctl set $NEWCTID --name $CTID_NAME --save
+                            fi
+                        else
                             /bin/echo "ERROR: New CTID unavailable"
                             exit
                         fi
